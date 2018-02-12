@@ -1,4 +1,5 @@
 var express = require('express');
+var connect = require('../utils/sqlConnect');
 var router = express.Router();
 
 const templateTypes = [
@@ -8,10 +9,19 @@ const templateTypes = [
 ]
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', {
+
+  connect.query('SELECT * FROM mainmodel', (err, result, fields) => {
+    if (err) {
+      throw err; console.log(err);
+    } else {
+      console.log(result);
+    }
+  })
+  res.render('home', {
   title: 'Express' ,
   message: "i hate this",
-  templates : templateTypes
+  templates : templateTypes,
+  anothermessage : "handlebars is awesome"
   });
 });
 
